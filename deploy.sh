@@ -1,8 +1,14 @@
 #! /usr/bin/env bash
 
-set -e
+set -ex
 
 REMOTE=$1
+
+if [ -z "$REMOTE" ]
+then
+  echo "Must pass a remote to deploy to"
+  exit
+fi
 
 DEPLOYMENT_BRANCH="gh-pages"
 
@@ -15,7 +21,7 @@ jekyll build
 # should fail if checkout is not clean
 git checkout "$DEPLOYMENT_BRANCH"
 
-cp -ar _site/* . && rm -rf _site
+cp -a _site/* . && rm -rf _site
 
 touch .nojekyll
 
